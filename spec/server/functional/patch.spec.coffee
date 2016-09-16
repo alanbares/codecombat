@@ -47,6 +47,15 @@ describe 'POST /db/patch', ->
     expect(article.get('patches').length).toBe(1)
     done()
 
+  it 'is always based on the latest document', utils.wrap (done) ->
+    @json.delta = {i18n: [{de: {name:'German translation'}}]}
+    [res, body] = yield request.postAsync { @url, @json }
+    expect(res.statusCode).toBe(201)
+    expect(res.body.status).toBe('accepted')
+    [res, body] = yield request.postAsync { @url, @json }
+    expect(res.statusCode).toBe(422) # should be a no-change
+    done()
+
   it 'shows up in patch requests', utils.wrap (done) ->
     [res, body] = yield request.postAsync { @url, @json }
     patchID = res.body._id
