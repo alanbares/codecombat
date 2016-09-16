@@ -135,6 +135,7 @@ describe 'PUT /db/patch/:handle/status', ->
     [res, body] = yield request.putAsync {@url, json: {status: 'withdrawn'}}
     expect(res.statusCode).toBe(200)
     expect(body.status).toBe('withdrawn')
+    yield new Promise((resolve) -> setTimeout(resolve, 50))
     article = yield Article.findById(@article.id)
     expect(article.get('patches').length).toBe(0)
     done()
