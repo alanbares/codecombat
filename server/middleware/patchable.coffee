@@ -132,7 +132,7 @@ module.exports =
       patchTarget = {
         collection: collectionName
         id: target._id
-        original: target._id
+        original: target.get('original')
         version: _.pick(target.get('version'), 'major', 'minor')
       }
     else

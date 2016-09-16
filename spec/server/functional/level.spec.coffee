@@ -247,7 +247,7 @@ describe 'POST /db/level/names', ->
     
 describe 'POST /db/level/:handle/patch', ->
   
-  it 'accepts the patch based on the latest version, not the version given', utils.wrap (done) ->
+  fit 'accepts the patch based on the latest version, not the version given', utils.wrap (done) ->
     user = yield utils.initUser()
     yield utils.loginUser(user)
     level = yield utils.makeLevel()
@@ -275,6 +275,7 @@ describe 'POST /db/level/:handle/patch', ->
     
     [res, body] = yield request.postAsync({url, json})
     expect(res.body.status).toBe('pending')
+    expect(res.body.target.original).toBe(level.get('original').toString())
     done()
     
   it 'throws an error if there would be no change', utils.wrap (done) ->
